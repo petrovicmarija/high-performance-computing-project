@@ -73,25 +73,27 @@ def main_user_input():
     queue1 = Queue(maxsize=5)
     queue2 = Queue(maxsize=5)
 
-    q1 = []
-    q2 = []
-    with open('consumer1.json') as json_file:
-        data = json.load(json_file)
-        q1 = data['queue1']
-
-    with open('consumer2.json') as json_file:
-        data = json.load(json_file)
-        q2 = data['queue2']
-
-    for msg in q1:
-        queue1.put(msg)
-
-    for msg in q2:
-        queue2.put(msg)
-
+    # q1 = []
+    # q2 = []
+    # with open('consumer1.json') as json_file:
+    #     data = json.load(json_file)
+    #     q1 = data['queue1']
+    #
+    # with open('consumer2.json') as json_file:
+    #     data = json.load(json_file)
+    #     q2 = data['queue2']
+    #
+    # for msg in q1:
+    #     queue1.put(msg)
+    #
+    # for msg in q2:
+    #     queue2.put(msg)
+    content = None
+    routing_key = None
     # producer
+    comm.Barrier()
     if rank == 0:
-        while True:
+        for i in range(3):
             try:
                 content = input("Enter message content: ")
                 if content == "stop":
@@ -102,8 +104,9 @@ def main_user_input():
                 print("Producer sent message:", message)
             except MPI.Exception as e:
                 print("Producer failed to send message to exchange:", e.error_string)
+    comm.Barrier()
     # direct exchange
-    elif rank == 1:
+    if rank == 1:
         while True:
             try:
                 message = comm.recv(source=0, tag=11)
