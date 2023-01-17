@@ -1,20 +1,6 @@
-{
-  "queue2": [
-    {
-      "content": "hi",
-      "routing_key": "queue2"
-    },
-    {
-      "content": "abc",
-      "routing_key": "queue2"
-    },
-    {
-      "content": "hej",
-      "routing_key": "queue2"
-    },
-    {
-      "content": "hello",
-      "routing_key": "queue2"
-    }
-  ]
-}
+[
+  {
+    "content": "hello consumer2",
+    "routing_key": "q2"
+  }
+]

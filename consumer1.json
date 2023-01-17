@@ -1,8 +1,6 @@
-{
-  "queue1": [
-    {
-      "content": "hello consumer1",
-      "routing_key": "queue1"
-    }
-  ]
-}
+[
+  {
+    "content": "hello consumer1",
+    "routing_key": "q1"
+  }
+]
