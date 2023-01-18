@@ -2,6 +2,7 @@ from mpi4py import MPI
 from queue import Queue
 import sys
 import json
+import time
 
 
 def run_with_user_input():
@@ -16,7 +17,7 @@ def run_with_user_input():
     # producer
     comm.Barrier()
     if rank == 0:
-        for i in range(6):
+        for i in range(5):
             try:
                 content = input("Enter message content: ")
                 if content == "stop":
@@ -53,6 +54,7 @@ def run_with_user_input():
                 print("Consumer 1 received message:", received_message)
                 while not queue1.empty():
                     print("[1]:", queue1.get_nowait())
+                    time.sleep(3)
                     if queue1.empty():
                         break
             except MPI.Exception as e:
@@ -67,6 +69,7 @@ def run_with_user_input():
                 print("Consumer 2 received message:", received_message)
                 while not queue2.empty():
                     print("[2]:", queue2.get_nowait())
+                    time.sleep(3)
                     if queue2.empty():
                         break
             except MPI.Exception as e:
@@ -136,6 +139,7 @@ def run_with_files():
                 print("Consumer 1 received message:", received_message)
                 while not queue1.empty():
                     print("[1]:", queue1.get_nowait())
+                    time.sleep(3)
                     if queue1.empty():
                         break
             except MPI.Exception as e:
@@ -153,6 +157,7 @@ def run_with_files():
                 print("Consumer 2 received message:", received_message)
                 while not queue2.empty():
                     print("[2]:", queue2.get_nowait())
+                    time.sleep(3)
                     if queue2.empty():
                         break
             except MPI.Exception as e:
