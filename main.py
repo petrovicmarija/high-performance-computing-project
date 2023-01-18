@@ -16,7 +16,7 @@ def run_with_user_input():
     # producer
     comm.Barrier()
     if rank == 0:
-        for i in range(5):
+        for i in range(6):
             try:
                 content = input("Enter message content: ")
                 if content == "stop":
@@ -130,11 +130,12 @@ def run_with_files():
                 req = comm.irecv(source=1, tag=11)
                 received_message = req.wait()
                 queue1.put_nowait(received_message)
+                data = read_json("consumer1.json")
+                data.append(received_message)
+                save_to_json_for_consumer("consumer1.json", data)
                 print("Consumer 1 received message:", received_message)
                 while not queue1.empty():
-                    data = read_json("consumer1.json")
-                    data.append(queue1.get_nowait())
-                    save_to_json_for_consumer("consumer1.json", data)
+                    print("[1]:", queue1.get_nowait())
                     if queue1.empty():
                         break
             except MPI.Exception as e:
@@ -146,11 +147,12 @@ def run_with_files():
                 req = comm.irecv(source=1, tag=11)
                 received_message = req.wait()
                 queue2.put_nowait(received_message)
+                data = read_json("consumer2.json")
+                data.append(received_message)
+                save_to_json_for_consumer("consumer2.json", data)
                 print("Consumer 2 received message:", received_message)
                 while not queue2.empty():
-                    data = read_json("consumer2.json")
-                    data.append(queue2.get_nowait())
-                    save_to_json_for_consumer("consumer2.json", data)
+                    print("[2]:", queue2.get_nowait())
                     if queue2.empty():
                         break
             except MPI.Exception as e:
@@ -158,5 +160,5 @@ def run_with_files():
 
 
 if __name__ == '__main__':
-    run_with_user_input()
-    # run_with_files()
+    # run_with_user_input()
+    run_with_files()
