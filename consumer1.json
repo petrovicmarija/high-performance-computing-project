@@ -1,0 +1,6 @@
+[
+  {
+    "content": "hello consumer1",
+    "routing_key": "q1"
+  }
+]
